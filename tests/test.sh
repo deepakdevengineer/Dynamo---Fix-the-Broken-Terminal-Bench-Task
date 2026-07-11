@@ -2,9 +2,11 @@
 
 mkdir -p /logs/verifier
 
-pytest /tests/test_outputs.py -rA \
-      --ctrf /logs/verifier/ctrf.json \
-      && result=0 || result=$?
+if pytest /tests/test_outputs.py -rA --ctrf /logs/verifier/ctrf.json; then
+  result=0
+else
+  result=$?
+fi
 
 if [ $result -eq 0 ]; then
   echo 1 > /logs/verifier/reward.txt
